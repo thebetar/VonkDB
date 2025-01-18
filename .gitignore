@@ -1,0 +1,5 @@
+.vscode
+
+# Ignore all files in the data directory except test-users.txt
+data/*
+!data/test-users.txt
