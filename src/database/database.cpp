@@ -33,7 +33,7 @@ int Database::table_exists(string table)
 
 string Database::parse_data(string table, string id, vector<string> data)
 {
-    vector<string> columns = this->get_columns(table);
+    vector<string> columns = this->get_table_columns(table);
 
     string row = id + "|";
 
@@ -51,68 +51,6 @@ string Database::parse_data(string table, string id, vector<string> data)
 void Database::init(string folder)
 {
     this->folder = folder;
-}
-
-// Read table from the database
-vector<string> Database::get(string table)
-{
-    // Check if the table exists
-    if (!this->table_exists(table))
-    {
-        printf("Table does not exist\n");
-        return {};
-    }
-
-    // Vector to store results
-    vector<string> data;
-
-    // Open the file in read mode
-    string filepath = this->get_filepath(table);
-    ifstream file(filepath);
-    string line;
-
-    // Skip the first line (columns)
-    getline(file, line);
-
-    // Read the rest of the file
-    while (getline(file, line))
-    {
-        data.push_back(line);
-    }
-
-    file.close();
-
-    return data;
-}
-
-// Read data by id
-string Database::get_by_id(string table, string id)
-{
-    // Check if the table exists
-    if (!this->table_exists(table))
-    {
-        printf("Table does not exist\n");
-        return "";
-    }
-
-    // Open the file in read mode
-    string filepath = this->get_filepath(table);
-    ifstream file(filepath);
-    string line;
-
-    // Read the rest of the file
-    while (getline(file, line))
-    {
-        // If the line starts with the id, return it
-        if (line.rfind(id, 0) == 0)
-        {
-            return line;
-        }
-    }
-
-    file.close();
-
-    return "";
 }
 
 // Write to table in the database
@@ -328,69 +266,4 @@ void Database::print(vector<string> data)
     {
         printf("%s\n", data[i].c_str());
     }
-}
-
-// Get table names
-vector<string> Database::get_table_names()
-{
-    vector<string> tables;
-    string folder = this->folder;
-    string table;
-
-    ifstream file(folder);
-
-    try
-    {
-        for (const auto &entry : filesystem::directory_iterator(folder))
-        {
-            table = entry.path().filename().string();
-            table = table.substr(0, table.size() - 4);
-            tables.push_back(table);
-        }
-    }
-    catch (exception e)
-    {
-        cerr << "Error: " << e.what() << endl;
-    }
-
-    return tables;
-}
-
-// Get columns from the table
-vector<string> Database::get_columns(string table)
-{
-    // Check if the table exists
-    if (!this->table_exists(table))
-    {
-        printf("Table does not exist\n");
-        return {};
-    }
-
-    // Open the file in read mode
-    string filepath = this->get_filepath(table);
-    ifstream file(filepath);
-    string line;
-
-    // Read the columns
-    getline(file, line);
-    vector<string> columns;
-
-    // Split the line by '|'
-    size_t pos = 0;
-    string column;
-
-    // Read the columns
-    while ((pos = line.find("|")) != string::npos)
-    {
-        column = line.substr(0, pos);
-        columns.push_back(column);
-        line.erase(0, pos + 1);
-    }
-
-    // Add the last column
-    columns.push_back(line);
-
-    file.close();
-
-    return columns;
 }

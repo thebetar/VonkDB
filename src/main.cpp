@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "database.h"
+#include "database/database.h"
 #include "commands.h"
 
 int main()
@@ -22,6 +22,10 @@ int main()
         else if (command == "get_by_id")
         {
             command_get_by_id(db);
+        }
+        else if (command == "get_joined")
+        {
+            command_get_joined(db);
         }
         else if (command == "insert")
         {

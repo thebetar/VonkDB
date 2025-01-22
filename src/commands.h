@@ -1,9 +1,10 @@
 #pragma once
 
-#include "database.h"
+#include "database/database.h"
 
 void command_get(Database &db);
 void command_get_by_id(Database &db);
+void command_get_joined(Database &db);
 void command_insert(Database &db);
 void command_update(Database &db);
 void command_remove(Database &db);

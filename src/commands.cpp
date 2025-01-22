@@ -1,6 +1,6 @@
 #include <iostream>
 #include "commands.h"
-#include "database.h"
+#include "database/database.h"
 
 void command_get(Database &db)
 {
@@ -21,13 +21,31 @@ void command_get_by_id(Database &db)
     cout << db.get_by_id(table, id) << endl;
 }
 
+void command_get_joined(Database &db)
+{
+    cout << "Enter table 1 name: ";
+    string table1;
+    cin >> table1;
+    cout << "Enter table 2 name: ";
+    string table2;
+    cin >> table2;
+    cout << "Enter table 1 column: ";
+    string table1_col;
+    cin >> table1_col;
+    cout << "Enter table 2 column: ";
+    string table2_col;
+    cin >> table2_col;
+
+    db.print(db.get_joined(table1, table2, table1_col, table2_col));
+}
+
 void command_insert(Database &db)
 {
     cout << "Enter table name: ";
     string table;
     cin >> table;
 
-    vector<string> columns = db.get_columns(table);
+    vector<string> columns = db.get_table_columns(table);
     vector<string> data;
     cout << "Enter data: \n";
 
@@ -52,7 +70,7 @@ void command_update(Database &db)
     string id;
     cin >> id;
 
-    vector<string> columns = db.get_columns(table);
+    vector<string> columns = db.get_table_columns(table);
     vector<string> data;
     cout << "Enter data: \n";
 
@@ -143,7 +161,7 @@ void command_get_table_columns(Database &db)
     cout << "Enter table name: ";
     string table;
     cin >> table;
-    db.print(db.get_columns(table));
+    db.print(db.get_table_columns(table));
 }
 
 void command_clear(Database &db)
@@ -167,15 +185,16 @@ void command_clear(Database &db)
 void command_help()
 {
     cout << "Commands:\n";
-    cout << "get - Get all data from a table\n";
-    cout << "get_by_id - Get data by id\n";
-    cout << "insert - Insert data into a table\n";
-    cout << "update - Update data in a table\n";
-    cout << "remove - Remove data from a table\n";
-    cout << "create_table - Create a new table\n";
-    cout << "drop_table - Drop a table\n";
-    cout << "get_table_names - Get all table names\n";
-    cout << "get_table_columns - Get columns of a table\n";
-    cout << "clear - Clear a table\n";
-    cout << "help - Show this help message\n";
+    cout << "  - get: Get all data from a table\n";
+    cout << "  - get_by_id: Get data by id\n";
+    cout << "  - get_joined: Get joined data from two tables\n";
+    cout << "  - insert: Insert data into a table\n";
+    cout << "  - update: Update data in a table\n";
+    cout << "  - remove: Remove data from a table\n";
+    cout << "  - create_table: Create a new table\n";
+    cout << "  - drop_table: Drop a table\n";
+    cout << "  - get_table_names: Get all table names\n";
+    cout << "  - get_table_columns: Get columns of a table\n";
+    cout << "  - clear: Clear a table\n";
+    cout << "  - help: Show this help message\n";
 }

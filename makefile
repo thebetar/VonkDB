@@ -1,6 +1,6 @@
 # Makefile
 
-SRC = ./src/main.cpp ./src/database.cpp ./src/commands.cpp
+SRC = ./src/main.cpp ./src/commands.cpp ./src/database/database.cpp ./src/database/database_get.cpp
 OUT = ./main
 
 # Default target
