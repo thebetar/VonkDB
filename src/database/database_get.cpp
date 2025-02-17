@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <filesystem>
+#include <ncurses.h>
 #include "database.h"
 
 using namespace std;
@@ -13,7 +14,6 @@ vector<string> Database::get(string table)
     // Check if the table exists
     if (!this->table_exists(table))
     {
-        printf("Table does not exist\n");
         return {};
     }
 
@@ -29,7 +29,6 @@ string Database::get_by_id(string table, string id)
     // Check if the table exists
     if (!this->table_exists(table))
     {
-        printf("Table does not exist\n");
         return "";
     }
 
@@ -98,13 +97,13 @@ vector<string> Database::get_joined(string table1, string table2, string table1_
     // Check if both tables exists
     if (!this->table_exists(table1))
     {
-        printf("Table 1 does not exist\n");
+        printw("Table 1 does not exist\n");
         return {};
     }
 
     if (!this->table_exists(table2))
     {
-        printf("Table 2 does not exist\n");
+        printw("Table 2 does not exist\n");
         return {};
     }
 
@@ -117,7 +116,7 @@ vector<string> Database::get_joined(string table1, string table2, string table1_
 
     if (table1_col_idx == -1)
     {
-        printf("Table column does not exist on table 1\n");
+        printw("Table column does not exist on table 1\n");
         return {};
     }
 
@@ -125,7 +124,7 @@ vector<string> Database::get_joined(string table1, string table2, string table1_
 
     if (table2_col_idx == -1)
     {
-        printf("Table column does not exist on table 2\n");
+        printw("Table column does not exist on table 2\n");
         return {};
     }
 
@@ -184,7 +183,6 @@ vector<string> Database::get_table_column_names(string table)
     // Check if the table exists
     if (!this->table_exists(table))
     {
-        printf("Table does not exist\n");
         return {};
     }
 

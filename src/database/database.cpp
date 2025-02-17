@@ -26,9 +26,13 @@ string Database::get_filepath(string table)
 int Database::table_exists(string table)
 {
     string filepath = this->get_filepath(table);
-    ifstream file(filepath);
 
-    return file.good();
+    if (filesystem::exists(filepath))
+    {
+        return 1;
+    }
+
+    return 0;
 }
 
 string Database::parse_data(string table, string id, vector<string> data)
@@ -37,7 +41,8 @@ string Database::parse_data(string table, string id, vector<string> data)
 
     string row = id + "|";
 
-    for (int i = 0; i < columns.size(); i++)
+    // Iterate over columns and get values (first column is ID)
+    for (int i = 0; i < columns.size() - 1; i++)
     {
         row += data[i] + "|";
     }
@@ -134,20 +139,20 @@ int Database::remove(string table, string id)
 }
 
 // Update data in the database
-int Database::update(string table, string id, vector<string> data)
+int Database::update(string table_name, string id, vector<string> data)
 {
     try
     {
         // Check if the table exists
-        if (!this->table_exists(table))
+        if (!this->table_exists(table_name))
         {
             printf("Table does not exist\n");
             return 0;
         }
 
         // Open the file in read mode
-        string filepath = this->get_filepath(table);
-        ifstream file(this->folder);
+        string filepath = this->get_filepath(table_name);
+        ifstream file(filepath);
         string line;
 
         // New data to be written
@@ -159,7 +164,7 @@ int Database::update(string table, string id, vector<string> data)
             if (line.rfind(id, 0) == 0)
             {
                 // Replace the line with the new data
-                new_data += this->parse_data(table, id, data);
+                new_data += this->parse_data(table_name, id, data);
                 continue;
             }
 
@@ -256,14 +261,5 @@ int Database::drop_table(string table)
     {
         printf("Error: %s\n", e.what());
         return 0;
-    }
-}
-
-// Print data
-void Database::print(vector<string> data)
-{
-    for (int i = 0; i < data.size(); i++)
-    {
-        printf("%s\n", data[i].c_str());
     }
 }

@@ -22,12 +22,10 @@ public:
     int drop_table(string table);
     vector<string> get_table_names();
     vector<string> get_table_column_names(string table);
-
-    void print(vector<string> data);
+    int table_exists(string table);
 
 private:
     string get_filepath(string table);
     string parse_data(string table, string id, vector<string> data);
-    int table_exists(string table);
     vector<string> get_table_data(string table);
 };

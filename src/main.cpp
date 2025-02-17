@@ -1,20 +1,48 @@
 #include <iostream>
 #include <fstream>
+#include <ncurses.h>
+#include <string>
 #include "database/database.h"
 #include "commands.h"
-#include <ncurses.h>
 
 int main()
 {
-    Database db;
+    // Set random seed to time
+    srand(time(NULL));
 
+    // Initialize ncurses
+    WINDOW *win = initscr();
+    if (win == nullptr)
+    {
+        std::cerr << "Error initializing ncurses" << std::endl;
+        return 1;
+    }
+
+    cbreak();             // Disable line buffering
+    noecho();             // Don't echo input
+    keypad(stdscr, TRUE); // Enable keypad input
+
+    Database db;
     db.init("data");
+
+    int max_y, max_x;
+    getmaxyx(stdscr, max_y, max_x);
 
     while (true)
     {
-        cout << "Enter a command (type 'help' for a list of commands): ";
-        string command;
-        cin >> command;
+        clear();
+        mvprintw(0, 0, "Enter a command (type 'help' for a list of commands): ");
+        refresh();
+
+        char input[256];
+        echo(); // Enable echo for command input
+        getstr(input);
+        noecho(); // Disable echo after input
+
+        string command(input);
+
+        // Clear the screen for command output
+        clear();
 
         if (command == "get")
         {
@@ -36,9 +64,9 @@ int main()
         {
             command_update(db);
         }
-        else if (command == "remove")
+        else if (command == "delete")
         {
-            command_remove(db);
+            command_delete(db);
         }
         else if (command == "create_table")
         {
@@ -70,9 +98,20 @@ int main()
         }
         else
         {
-            cout << "Invalid command\n";
+            mvprintw(1, 0, "Invalid command");
         }
+
+        // Clear last line for text
+        move(max_y - 1, 0);
+        clrtoeol();
+
+        // Wait for user input before clearing screen
+        mvprintw(max_y - 1, 0, "Press any key to continue...");
+        refresh();
+        getch();
     }
 
+    // Clean up ncurses
+    endwin();
     return 0;
 }
