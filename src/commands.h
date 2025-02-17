@@ -11,6 +11,6 @@ void command_remove(Database &db);
 void command_create_table(Database &db);
 void command_drop_table(Database &db);
 void command_get_table_names(Database &db);
-void command_get_table_columns(Database &db);
-void command_clear(Database &db);
+void command_get_table_column_names(Database &db);
+void command_clear_table(Database &db);
 void command_help();

@@ -2,6 +2,7 @@
 #include <fstream>
 #include "database/database.h"
 #include "commands.h"
+#include <ncurses.h>
 
 int main()
 {
@@ -51,13 +52,13 @@ int main()
         {
             command_get_table_names(db);
         }
-        else if (command == "get_table_columns")
+        else if (command == "get_table_column_names")
         {
-            command_get_table_columns(db);
+            command_get_table_column_names(db);
         }
-        else if (command == "clear")
+        else if (command == "clear_table")
         {
-            command_clear(db);
+            command_clear_table(db);
         }
         else if (command == "help")
         {

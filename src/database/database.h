@@ -17,11 +17,11 @@ public:
     string insert(string table, vector<string> data);
     int remove(string table, string id);
     int update(string table, string id, vector<string> data);
-    int clear(string table);
+    int clear_table(string table);
     int create_table(string table, vector<string> columns);
     int drop_table(string table);
     vector<string> get_table_names();
-    vector<string> get_table_columns(string table);
+    vector<string> get_table_column_names(string table);
 
     void print(vector<string> data);
 

@@ -33,7 +33,7 @@ int Database::table_exists(string table)
 
 string Database::parse_data(string table, string id, vector<string> data)
 {
-    vector<string> columns = this->get_table_columns(table);
+    vector<string> columns = this->get_table_column_names(table);
 
     string row = id + "|";
 
@@ -184,7 +184,7 @@ int Database::update(string table, string id, vector<string> data)
 }
 
 // Clear database
-int Database::clear(string table)
+int Database::clear_table(string table)
 {
     try
     {

@@ -108,9 +108,9 @@ vector<string> Database::get_joined(string table1, string table2, string table1_
         return {};
     }
 
-    vector<string> table1_cols = this->get_table_columns(table1);
+    vector<string> table1_cols = this->get_table_column_names(table1);
     vector<string> table1_data = this->get_table_data(table1);
-    vector<string> table2_cols = this->get_table_columns(table2);
+    vector<string> table2_cols = this->get_table_column_names(table2);
     vector<string> table2_data = this->get_table_data(table2);
 
     int table1_col_idx = get_table_idx(table1_col, table1_cols);
@@ -179,7 +179,7 @@ vector<string> Database::get_table_names()
 }
 
 // Get columns from the table
-vector<string> Database::get_table_columns(string table)
+vector<string> Database::get_table_column_names(string table)
 {
     // Check if the table exists
     if (!this->table_exists(table))
